@@ -1,0 +1,128 @@
+{
+  "egg": "q-gplvm/egifa/compress/runs/K=5_Q=3_method=p|e|qpack|5d7f6980.ipynb",
+  "duration_ms": 3000.0,
+  "fs": 16000,
+  "spectral_tilt_order_k": 1,
+  "spectral_tilt_rho": 0.98,
+  "mean_period_ms": 7.519523476221325,
+  "mean_f0_hz": 132.98715047067253,
+  "num_paths": 3,
+  "sources": [
+    {
+      "path": 1,
+      "file": "qpack_source_1.wav",
+      "component": 3,
+      "tau_max": 400.0,
+      "duration_ms": 3009.0766679201342,
+      "pitch_track_index": 1
+    },
+    {
+      "path": 2,
+      "file": "qpack_source_2.wav",
+      "component": 2,
+      "tau_max": 400.0,
+      "duration_ms": 2988.8487809639096,
+      "pitch_track_index": 4
+    },
+    {
+      "path": 3,
+      "file": "qpack_source_3.wav",
+      "component": 3,
+      "tau_max": 400.0,
+      "duration_ms": 3027.121615109401,
+      "pitch_track_index": 6
+    }
+  ],
+  "vowels": [
+    {
+      "vowel": "A",
+      "files": [
+        "qpack_speech_A_1.wav",
+        "qpack_speech_A_2.wav",
+        "qpack_speech_A_3.wav"
+      ],
+      "formants_hz": [
+        700.0,
+        1220.0,
+        2600.0
+      ],
+      "bandwidths_hz": [
+        130.0,
+        70.0,
+        160.0
+      ]
+    },
+    {
+      "vowel": "i^y",
+      "files": [
+        "qpack_speech_i_y_1.wav",
+        "qpack_speech_i_y_2.wav",
+        "qpack_speech_i_y_3.wav"
+      ],
+      "formants_hz": [
+        310.0,
+        2020.0,
+        2960.0
+      ],
+      "bandwidths_hz": [
+        45.0,
+        200.0,
+        400.0
+      ]
+    },
+    {
+      "vowel": "E^V",
+      "files": [
+        "qpack_speech_E_V_1.wav",
+        "qpack_speech_E_V_2.wav",
+        "qpack_speech_E_V_3.wav"
+      ],
+      "formants_hz": [
+        530.0,
+        1680.0,
+        2500.0
+      ],
+      "bandwidths_hz": [
+        60.0,
+        90.0,
+        200.0
+      ]
+    },
+    {
+      "vowel": "O^@",
+      "files": [
+        "qpack_speech_O_schwa_1.wav",
+        "qpack_speech_O_schwa_2.wav",
+        "qpack_speech_O_schwa_3.wav"
+      ],
+      "formants_hz": [
+        600.0,
+        990.0,
+        2570.0
+      ],
+      "bandwidths_hz": [
+        90.0,
+        100.0,
+        80.0
+      ]
+    },
+    {
+      "vowel": "u^u-",
+      "files": [
+        "qpack_speech_u_u__1.wav",
+        "qpack_speech_u_u__2.wav",
+        "qpack_speech_u_u__3.wav"
+      ],
+      "formants_hz": [
+        350.0,
+        1250.0,
+        2200.0
+      ],
+      "bandwidths_hz": [
+        65.0,
+        110.0,
+        140.0
+      ]
+    }
+  ]
+}

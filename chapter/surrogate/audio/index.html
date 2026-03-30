@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Surrogate Speech Samples</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f3ee;
+      --panel: #ffffff;
+      --ink: #181513;
+      --muted: #655f57;
+      --line: #d7d0c6;
+      --accent: #b44f2f;
+      --accent-2: #224b6f;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Libertinus Serif", "Iowan Old Style", Georgia, serif;
+      background: radial-gradient(circle at top, #fff8ef 0%, var(--bg) 52%);
+      color: var(--ink);
+    }
+
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 36px 20px 56px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    p {
+      max-width: 70ch;
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.55;
+    }
+
+    .player-shell {
+      display: grid;
+      gap: 8px;
+      margin: 0 0 28px;
+      padding: 16px 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: color-mix(in srgb, var(--panel) 86%, transparent);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.06);
+    }
+
+    .now-playing {
+      min-height: 1.25em;
+      color: var(--accent-2);
+      font-size: 0.98rem;
+    }
+
+    audio {
+      width: 100%;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 160px repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .corner,
+    .colhead,
+    .rowhead,
+    .cell {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .corner,
+    .colhead,
+    .rowhead {
+      padding: 14px 16px;
+    }
+
+    .corner {
+      background: transparent;
+      border-style: dashed;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .colhead {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .rowhead {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .rowhead code {
+      font-size: 0.95em;
+    }
+
+    .cell {
+      display: grid;
+      gap: 10px;
+      padding: 14px 14px 12px;
+      min-height: 104px;
+    }
+
+    .cell-title {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 9px 14px;
+      background: linear-gradient(135deg, var(--accent), #d37247);
+      color: white;
+      font: inherit;
+      font-size: 0.93rem;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(180, 79, 47, 0.22);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    a {
+      color: var(--accent-2);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .meta {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 920px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .corner {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Surrogate Speech Samples</h1>
+    <p>
+      These are short vowel-like fragments synthesized from the QPACK surrogate model. A glottal waveform is sampled in
+      normalized cycle time, warped by a sampled pitch trajectory, and then passed through a vowel-specific AR filter.
+      Columns share the same sampled source path; rows change the spectral envelope.
+    </p>
+
+    <section class="player-shell">
+      <div id="now-playing" class="now-playing">Select a sample.</div>
+      <audio id="player" controls preload="none"></audio>
+    </section>
+
+    <section id="grid" class="grid" aria-label="Audio sample grid"></section>
+    <div id="meta" class="meta"></div>
+  </main>
+
+  <script>
+    const PRETTY_VOWELS = {
+      "A": "A",
+      "i^y": "i^y",
+      "E^V": "E^V",
+      "O^@": "O^@",
+      "u^u-": "u^u-"
+    };
+
+    const RICKROLL_TARGET = {
+      kind: "vowel",
+      vowel: "O^@",
+      path: 2,
+      url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    };
+
+    const player = document.getElementById("player");
+    const nowPlaying = document.getElementById("now-playing");
+    const grid = document.getElementById("grid");
+    const meta = document.getElementById("meta");
+
+    function labelForCell(kind, rowName, path) {
+      if (kind === "source") return `Source path ${path}`;
+      return `Vowel ${rowName}, path ${path}`;
+    }
+
+    function playFile(file, label) {
+      player.src = file;
+      player.play();
+      nowPlaying.textContent = `Now playing: ${label}`;
+    }
+
+    function makeCell(kind, rowName, path, file) {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+
+      const title = document.createElement("div");
+      title.className = "cell-title";
+      title.textContent = labelForCell(kind, rowName, path);
+      cell.appendChild(title);
+
+      const controls = document.createElement("div");
+      controls.className = "controls";
+
+      const play = document.createElement("button");
+      play.type = "button";
+      play.textContent = "Play";
+      play.addEventListener("click", () => {
+        if (
+          kind === RICKROLL_TARGET.kind &&
+          rowName === RICKROLL_TARGET.vowel &&
+          path === RICKROLL_TARGET.path
+        ) {
+          nowPlaying.textContent = "Now playing: something unexpectedly familiar";
+          window.open(RICKROLL_TARGET.url, "_blank", "noopener,noreferrer");
+          return;
+        }
+        playFile(file, labelForCell(kind, rowName, path));
+      });
+      controls.appendChild(play);
+
+      const link = document.createElement("a");
+      link.href = file;
+      link.textContent = "wav";
+      link.setAttribute("download", "");
+      controls.appendChild(link);
+
+      cell.appendChild(controls);
+      return cell;
+    }
+
+    function addHeader(text, className, isCode = false) {
+      const div = document.createElement("div");
+      div.className = className;
+      if (isCode) {
+        const code = document.createElement("code");
+        code.textContent = text;
+        div.appendChild(code);
+      } else {
+        div.textContent = text;
+      }
+      grid.appendChild(div);
+    }
+
+    fetch("./manifest.json")
+      .then((response) => response.json())
+      .then((manifest) => {
+        addHeader("shared source path", "corner");
+        manifest.sources.forEach((source) => {
+          addHeader(`Path ${source.path}`, "colhead");
+        });
+
+        addHeader("Source", "rowhead");
+        manifest.sources.forEach((source) => {
+          grid.appendChild(
+            makeCell("source", "Source", source.path, source.file)
+          );
+        });
+
+        manifest.vowels.forEach((entry) => {
+          addHeader(PRETTY_VOWELS[entry.vowel] || entry.vowel, "rowhead", true);
+          entry.files.forEach((file, index) => {
+            grid.appendChild(
+              makeCell("vowel", entry.vowel, index + 1, file)
+            );
+          });
+        });
+
+        meta.textContent =
+          `Three sampled source paths, ${manifest.vowels.length} vowel filters, ` +
+          `about ${(manifest.duration_ms / 1000).toFixed(1)} s per sample.`;
+      })
+      .catch((error) => {
+        nowPlaying.textContent = "Could not load manifest.json";
+        meta.textContent = error.message;
+      });
+  </script>
+</body>
+</html>
