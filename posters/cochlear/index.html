@@ -3,21 +3,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Probabilistic speech deconvolution in real time</title>
 <style>
- body { font: 17px/1.45 -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 1.2rem; max-width: 40rem; color: #222; }
+ body { font: 17px/1.45 -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 1.2rem; max-width: 44rem; color: #222; }
  h1 { font-size: 1.35rem; margin: 0 0 1rem; }
  ul { list-style: none; padding: 0; }
  li { margin: .55rem 0; }
- a.fig { display: block; padding: .75rem 1rem; background: #f3f5f9; border-radius: 10px; color: #1a4fb0; text-decoration: none; font-weight: 600; }
+ button.fig { display: block; width: 100%; text-align: left; padding: .75rem 1rem; background: #f3f5f9;
+   border: 0; border-radius: 10px; color: #1a4fb0; font: inherit; font-weight: 600; cursor: pointer; }
+ button.fig.open { border-radius: 10px 10px 0 0; }
+ button.fig::before { content: "\25b8  "; }
+ button.fig.open::before { content: "\25be  "; }
+ .panel { background: #f3f5f9; border-radius: 0 0 10px 10px; padding: .5rem; }
+ .panel iframe { width: 100%; height: 62vh; border: 0; border-radius: 8px; background: #fff; }
+ .panel a { display: block; text-align: right; font-size: .85rem; color: #1a4fb0; padding: .3rem .3rem 0; }
  p.links a { color: #1a4fb0; }
  footer { margin-top: 1.6rem; color: #888; font-size: .85rem; }
 </style></head><body>
 <h1>Probabilistic speech deconvolution in real time</h1>
 <ul>
-<li><a class="fig" href="https://mvsoom.github.io/bngif/posters/cochlear/fig/frame-time.html">One frame of speech, taken apart in time</a></li>
-<li><a class="fig" href="https://mvsoom.github.io/bngif/posters/cochlear/fig/frame-spectrum.html">The same frame in the spectrum</a></li>
-<li><a class="fig" href="https://mvsoom.github.io/bngif/posters/cochlear/fig/method-grid-2x3.html">Six inverse filtering methods on the same frame</a></li>
-<li><a class="fig" href="https://mvsoom.github.io/bngif/posters/cochlear/fig/wilcoxon-speech.html">Benchmark scores, and who beats whom</a></li>
+<li><button class="fig" data-src="https://mvsoom.github.io/bngif/posters/cochlear/fig/frame-time.html">One frame of speech, taken apart in time</button><div class="panel" hidden><iframe title="One frame of speech, taken apart in time"></iframe><a href="https://mvsoom.github.io/bngif/posters/cochlear/fig/frame-time.html" target="_blank" rel="noopener">open full screen</a></div></li>
+<li><button class="fig" data-src="https://mvsoom.github.io/bngif/posters/cochlear/fig/frame-spectrum.html">The same frame in the spectrum</button><div class="panel" hidden><iframe title="The same frame in the spectrum"></iframe><a href="https://mvsoom.github.io/bngif/posters/cochlear/fig/frame-spectrum.html" target="_blank" rel="noopener">open full screen</a></div></li>
+<li><button class="fig" data-src="https://mvsoom.github.io/bngif/posters/cochlear/fig/method-grid-2x3.html">Six inverse filtering methods on the same frame</button><div class="panel" hidden><iframe title="Six inverse filtering methods on the same frame"></iframe><a href="https://mvsoom.github.io/bngif/posters/cochlear/fig/method-grid-2x3.html" target="_blank" rel="noopener">open full screen</a></div></li>
+<li><button class="fig" data-src="https://mvsoom.github.io/bngif/posters/cochlear/fig/wilcoxon-speech.html">Benchmark scores, and who beats whom</button><div class="panel" hidden><iframe title="Benchmark scores, and who beats whom"></iframe><a href="https://mvsoom.github.io/bngif/posters/cochlear/fig/wilcoxon-speech.html" target="_blank" rel="noopener">open full screen</a></div></li>
 </ul>
 <p class="links"><a href="https://mvsoom.github.io/bngif/posters/cochlear/poster-cochlear.pdf">Poster (PDF)</a></p>
-<footer>Marnix Van Soom · AI Lab, Vrije Universiteit Brussel · marnix@ai.vub.ac.be</footer>
+<footer>Marnix Van Soom &middot; AI Lab, Vrije Universiteit Brussel &middot; marnix@ai.vub.ac.be</footer>
+<script>
+document.querySelectorAll("button.fig").forEach(function (b) {
+  b.addEventListener("click", function () {
+    var panel = b.nextElementSibling;
+    var frame = panel.querySelector("iframe");
+    if (!frame.src) frame.src = b.dataset.src;  // load only on first tap
+    panel.hidden = !panel.hidden;
+    b.classList.toggle("open", !panel.hidden);
+  });
+});
+</script>
 </body></html>

@@ -1,22 +1,40 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tell your filter what you already know</title>
+<title>Wanted: ill-posed autoregressive problems</title>
 <style>
- body { font: 17px/1.45 -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 1.2rem; max-width: 40rem; color: #222; }
+ body { font: 17px/1.45 -apple-system, system-ui, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 1.2rem; max-width: 44rem; color: #222; }
  h1 { font-size: 1.35rem; margin: 0 0 1rem; }
  ul { list-style: none; padding: 0; }
  li { margin: .55rem 0; }
- a.fig { display: block; padding: .75rem 1rem; background: #f3f5f9; border-radius: 10px; color: #1a4fb0; text-decoration: none; font-weight: 600; }
+ button.fig { display: block; width: 100%; text-align: left; padding: .75rem 1rem; background: #f3f5f9;
+   border: 0; border-radius: 10px; color: #1a4fb0; font: inherit; font-weight: 600; cursor: pointer; }
+ button.fig.open { border-radius: 10px 10px 0 0; }
+ button.fig::before { content: "\25b8  "; }
+ button.fig.open::before { content: "\25be  "; }
+ .panel { background: #f3f5f9; border-radius: 0 0 10px 10px; padding: .5rem; }
+ .panel iframe { width: 100%; height: 62vh; border: 0; border-radius: 8px; background: #fff; }
+ .panel a { display: block; text-align: right; font-size: .85rem; color: #1a4fb0; padding: .3rem .3rem 0; }
  p.links a { color: #1a4fb0; }
  footer { margin-top: 1.6rem; color: #888; font-size: .85rem; }
 </style></head><body>
-<h1>Tell your filter what you already know</h1>
+<h1>Wanted: ill-posed autoregressive problems</h1>
 <ul>
-<li><a class="fig" href="https://mvsoom.github.io/bngif/posters/arprior/fig/prior-vs-prior.html">The standard prior vs the spectral prior</a></li>
-<li><a class="fig" href="https://mvsoom.github.io/bngif/posters/arprior/fig/softspectral-gallery.html">More spectral priors: a resonance, a vowel, a tilt, a comb</a></li>
-<li><a class="fig" href="https://mvsoom.github.io/bngif/posters/arprior/fig/softspectral-mechanism.html">The same update at two prior strengths</a></li>
+<li><button class="fig" data-src="https://mvsoom.github.io/bngif/posters/arprior/fig/prior-vs-prior.html">The standard prior vs the spectral prior</button><div class="panel" hidden><iframe title="The standard prior vs the spectral prior"></iframe><a href="https://mvsoom.github.io/bngif/posters/arprior/fig/prior-vs-prior.html" target="_blank" rel="noopener">open full screen</a></div></li>
+<li><button class="fig" data-src="https://mvsoom.github.io/bngif/posters/arprior/fig/softspectral-gallery.html">More spectral priors: a resonance, a vowel, a tilt, a comb</button><div class="panel" hidden><iframe title="More spectral priors: a resonance, a vowel, a tilt, a comb"></iframe><a href="https://mvsoom.github.io/bngif/posters/arprior/fig/softspectral-gallery.html" target="_blank" rel="noopener">open full screen</a></div></li>
+<li><button class="fig" data-src="https://mvsoom.github.io/bngif/posters/arprior/fig/softspectral-mechanism.html">The same update, softly (λ = 1) vs strongly (λ = 0.02) regularized</button><div class="panel" hidden><iframe title="The same update, softly (λ = 1) vs strongly (λ = 0.02) regularized"></iframe><a href="https://mvsoom.github.io/bngif/posters/arprior/fig/softspectral-mechanism.html" target="_blank" rel="noopener">open full screen</a></div></li>
 </ul>
 <p class="links"><a href="https://mvsoom.github.io/bngif/posters/arprior/poster-arprior.pdf">Poster (PDF)</a></p>
-<footer>Marnix Van Soom · AI Lab, Vrije Universiteit Brussel · marnix@ai.vub.ac.be</footer>
+<footer>Marnix Van Soom &middot; AI Lab, Vrije Universiteit Brussel &middot; marnix@ai.vub.ac.be</footer>
+<script>
+document.querySelectorAll("button.fig").forEach(function (b) {
+  b.addEventListener("click", function () {
+    var panel = b.nextElementSibling;
+    var frame = panel.querySelector("iframe");
+    if (!frame.src) frame.src = b.dataset.src;  // load only on first tap
+    panel.hidden = !panel.hidden;
+    b.classList.toggle("open", !panel.hidden);
+  });
+});
+</script>
 </body></html>
